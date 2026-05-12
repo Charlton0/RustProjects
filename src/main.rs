@@ -60,25 +60,88 @@ fn view_bills(bills: &Vec<Bill>) {
     }
 }
 
-fn remove_bill(bills: &mut Vec<Bill>, index: usize) {
+fn remove_bill(bills: &mut Vec<Bill>) {
+
+    if bills.is_empty() {
+        println!("No bills to remove.");
+        return;
+    }
+
+    println!("\nEnter bill number to remove:");
+
+    let mut input = String::new();
+
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read input");
+
+    let index: usize = match input.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Please enter a valid number.");
+            return;
+        }
+    };
 
     if index < bills.len() {
         bills.remove(index);
         println!("Bill removed successfully!");
     } else {
-        println!("Invalid bill index.");
+        println!("Invalid bill number.");
     }
 }
 
 
-fn edit_bill(
-    bills: &mut Vec<Bill>,
-    index: usize,
-    new_name: String,
-    new_amount: f64,
-) {
+fn edit_bill(bills: &mut Vec<Bill>) {
+
+    if bills.is_empty() {
+        println!("No bills available to edit.");
+        return;
+    }
+
+    println!("\nEnter bill number to edit:");
+
+    let mut input = String::new();
+
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read input");
+
+    let index: usize = match input.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Please enter a valid number.");
+            return;
+        }
+    };
 
     if let Some(bill) = bills.get_mut(index) {
+
+        let mut new_name = String::new();
+
+        println!("Enter new bill name:");
+
+        io::stdin()
+            .read_line(&mut new_name)
+            .expect("Failed to read input");
+
+        let new_name = new_name.trim().to_string();
+
+        let mut new_amount_input = String::new();
+
+        println!("Enter new bill amount:");
+
+        io::stdin()
+            .read_line(&mut new_amount_input)
+            .expect("Failed to read input");
+
+        let new_amount: f64 = match new_amount_input.trim().parse() {
+            Ok(amount) => amount,
+            Err(_) => {
+                println!("Please enter a valid amount.");
+                return;
+            }
+        };
 
         bill.name = new_name;
         bill.amount = new_amount;
@@ -86,7 +149,7 @@ fn edit_bill(
         println!("Bill updated successfully!");
 
     } else {
-        println!("Bill not found.");
+        println!("Invalid bill number.");
     }
 }
 
@@ -123,13 +186,13 @@ fn main() {
     view_bills(&bills);
 }
 
-            "3" => {
-                println!("Remove Bill selected");
-            }
+           "3" => {
+    remove_bill(&mut bills);
+}
 
-            "4" => {
-                println!("Edit Bill selected");
-            }
+           "4" => {
+    edit_bill(&mut bills);
+}
 
             "5" => {
                 println!("Exiting program...");

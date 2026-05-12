@@ -42,19 +42,22 @@ fn add_bill(bills: &mut Vec<Bill>) {
 }
 
 fn view_bills(bills: &Vec<Bill>) {
+
     if bills.is_empty() {
+
         println!("No bills available.");
         return;
-
     }
 
-       for (index, bill) in bills.iter().enumerate() {
+    println!("\n===== ALL BILLS =====");
+
+    for (index, bill) in bills.iter().enumerate() {
+
         println!("-------------------");
         println!("Bill Number: {}", index);
         println!("Bill Name: {}", bill.name);
         println!("Amount: {}", bill.amount);
     }
-
 }
 
 fn remove_bill(bills: &mut Vec<Bill>, index: usize) {
@@ -116,9 +119,9 @@ fn main() {
     add_bill(&mut bills);
 }
 
-            "2" => {
-                println!("View Bills selected");
-            }
+           "2" => {
+    view_bills(&bills);
+}
 
             "3" => {
                 println!("Remove Bill selected");
